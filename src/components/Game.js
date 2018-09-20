@@ -1,35 +1,49 @@
 import { Game } from 'boardgame.io/core';
 
-// Return true if `cells` is in a winning configuration.
-function IsVictory(cells) {
-  return ((cells[0] === cells[1]) && (cells[0] !== null))
+function createDeck(num) {
+  const deck = []
+  for(let i = 0; i < num; i++){
+    deck.push(i)
+  }
+  return deck
 }
 
-// Return true if all `cells` are occupied.
-function IsDraw(cells) {
-  return cells.filter(c => c === null).length === 0;
-}
 
 export const WitchyGame = Game({
-  setup: () => ({ cells: Array(9).fill(null) }),
+  setup: () => ({
+    deck: createDeck(81),
+    taskCards: [],
+    startPlayer: 0,
+    players:  [{
+      name: 'player 1',
+      hand: [],
+      deck: [],
+      potions: [],
+      taskCards: [],
+    },
+    {
+      name: 'player 2',
+      hand: [],
+      deck: [],
+      potions: [],
+      taskCards: [],
+    },
+    {
+      name: 'player 3',
+      hand: [],
+      deck: [],
+      potions: [],
+      taskCards: []
+    }],
+  }),
 
   moves: {
-    clickCell(G, ctx, id) {
-      let cells = [...G.cells]; // don't mutate original state.
-      cells[id] = ctx.currentPlayer;
-      return { ...G, cells }; // don't mutate original state.
-    },
+    shuffle(G, ctx) {
+      const deck = ctx.random.Shuffle(G.deck);
+      return { ...G, deck };
+    }
   },
 
-  flow: {
-    endGameIf: (G, ctx) => {
-      if (IsVictory(G.cells)) {
-        return { winner: ctx.currentPlayer };
-      }
-      if (IsDraw(G.cells)) {
-        return { draw: true };
-      }
-    },
-  },
+  flow: {},
 
 });

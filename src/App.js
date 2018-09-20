@@ -1,13 +1,21 @@
+import React from 'react'
 import { Client } from 'boardgame.io/react';
-import { TicTacToeBoard } from './components/Board'
+import { WitchyGameBoard } from './components/Board'
 import { WitchyGame } from './components/Game'
 import './App.css';
 
 
-const App = Client({
+const WitchyGameClient = Client({
   game: WitchyGame,
-  board: TicTacToeBoard,
-  multiplayer: true,
+  board: WitchyGameBoard,
+  numPlayers: 3,
+
 });
+
+const App = () => (
+  <div>
+    <WitchyGameClient playerID="0" />
+  </div>
+);
 
 export default App;

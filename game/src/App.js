@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
+import { Client } from 'boardgame.io/react';
+import { Game } from 'boardgame.io/core';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to Witchy Game</h1>
-        </header>
-        <p className="App-intro">
-          Let's play
-        </p>
-      </div>
-    );
-  }
-}
+const WitchyGame = Game({
+  setup: () => ({ cells: Array(9).fill(null) }),
+
+  moves: {
+    clickCell(G, ctx, id) {
+      let cells = [...G.cells]; // don't mutate original state.
+      cells[id] = ctx.currentPlayer;
+      return { ...G, cells }; // don't mutate original state.
+    },
+  },
+});
+
+const App = Client({ game: WitchyGame });
 
 export default App;

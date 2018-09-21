@@ -1,4 +1,4 @@
 const Server = require('boardgame.io/server').Server;
 const WitchyGame = require('./components/Game').WitchyGame;
 const server = Server({ games: [WitchyGame] });
-server.run(3000);
+server.run(8000, (error) => console.log("Server is running, you'd better go and catch it.", error));

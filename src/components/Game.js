@@ -1,4 +1,4 @@
-import { Game, PlayerView } from 'boardgame.io/core';
+const { Game, PlayerView } = require('boardgame.io/core.js');
 
 function createDeck(num) {
   const deck = []
@@ -8,7 +8,7 @@ function createDeck(num) {
   return deck
 }
 
-export const WitchyGame = Game({
+const WitchyGame = Game({
   setup: () => ({
     deck: createDeck(81),
     taskCards: [1, 2, 3],
@@ -70,24 +70,27 @@ export const WitchyGame = Game({
       //card removed from table, added to potions
       //endTurn
       let copyG = {...G}
-      if(copyG.players[ctx.currentPlayer].potions.length < 1){
-        copyG.players[ctx.currentPlayer].potions.push(copyG.tableCardsCenter[idx])
-        copyG.tableCardsCenter.splice(idx, 1)
+      const player = copyG.players[ctx.currentPlayer]
+      const {tableCardsCenter} = copyG
+      if(player.potions.length < 1){
+        player.potions.push(copyG.tableCardsCenter[idx])
+        tableCardsCenter.splice(idx, 1)
       }
-      if(copyG.tableCardsCenter.length === 1){
-        console.log("in if statement")
-        copyG.players[Number(ctx.currentPlayer) + 1].potions.push(copyG.tableCardsCenter[0])
-        copyG.tableCardsCenter.splice(0, 1)
+      if(tableCardsCenter.length === 1){
+        copyG.players[Number(ctx.currentPlayer) + 1].potions.push(tableCardsCenter[0])
+        tableCardsCenter.splice(0, 1)
       }
-      return { ...G, players: copyG.players, tableCardsCenter: copyG.tableCardsCenter }
+      return { ...G, players: copyG.players, tableCardsCenter}
     },
     selectWitch(G, ctx, id){
       //click on card
       //card removed from deck, added to hand
       let copyG = {...G}
-      if(copyG.players[ctx.currentPlayer].deck[id]){
-        copyG.players[ctx.currentPlayer].hand.push(copyG.players[ctx.currentPlayer].deck[id])
-        copyG.players[ctx.currentPlayer].deck.splice(id, 1)
+      const player = copyG.players[ctx.playerID]
+      ctx.events.setActionPlayers({all: true})
+      if(player.deck[id] && player.hand.length <= 2){
+        player.hand.push(player.deck[id])
+        player.deck.splice(id, 1)
       }
       return { ...G, players: copyG.players};
     },
@@ -95,15 +98,18 @@ export const WitchyGame = Game({
       //click on card
       //card removed from hand, added to deck
       let copyG = {...G}
-      if(copyG.players[ctx.currentPlayer].hand[id]){
-        copyG.players[ctx.currentPlayer].deck.push(copyG.players[ctx.currentPlayer].hand[id])
-        copyG.players[ctx.currentPlayer].hand.splice(id, 1)
+      const player = copyG.players[ctx.currentPlayer]
+      if(player.hand[id]){
+        player.deck.push(player.hand[id])
+        player.hand.splice(id, 1)
       }
       return { ...G, players: copyG.players};
     },
     lockIn(G, ctx){
       let copyG = {...G}
-      copyG.lockedIn += 1;
+      if(copyG.players[ctx.currentPlayer].hand.length === 3){
+        copyG.lockedIn += 1;
+      }
       return { ...G, lockedIn: copyG.lockedIn }
     },
 
@@ -127,9 +133,12 @@ export const WitchyGame = Game({
       {
         name: 'witches select phase',
         allowedMoves: ['selectWitch', 'deselectWitch', 'lockIn'],
+        endTurnIf: (G, ctx) => G.lockedIn === Number(ctx.currentPlayer),
         endPhaseIf: G => G.lockedIn >= 3 ,
       },
     ],
   },
 
 });
+
+module.exports = { WitchyGame }

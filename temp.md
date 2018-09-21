@@ -1,4 +1,5 @@
 MOVES (change the Game State in G, through user actions)
+  DraftCard
   SelectWitch
   DeselectWitch
   PassTurn

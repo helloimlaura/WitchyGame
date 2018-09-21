@@ -1,17 +1,25 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 export class WitchyGameBoard extends React.Component {
+  static propTypes = {
+    events: PropTypes.any.isRequired,
+  };
+
+  //TODO: when actually rendering the cards, they will need an onclick for drafting them.
 
   render() {
-    const card1 = this.props.G.deck[0]
-    const card2 = this.props.G.deck[1]
-    const card3 = this.props.G.deck[2]
-
+    // console.log(this.props)
+    const {tableCardsCenter} = this.props.G
     return (
       <div>
-        <div id="handSpace1" className="card">{card1}</div>
-        <div id="handSpace2" className="card">{card2}</div>
-        <div id="handSpace3" className="card">{card3}</div>
+        <p style={{ background: '#aaa', width: 290, marginLeft: 31, textAlign: 'center' }}>{this.props.ctx.phase}</p>
+        <p style={{ background: '#aaa', width: 290, marginLeft: 31, textAlign: 'center' }}>{this.props.ctx.currentPlayer}</p>
+        <div className="flex-container">
+          <div id="tw0" className="card">{tableCardsCenter[0]}</div>
+          <div id="tw1" className="card">{tableCardsCenter[1]}</div>
+          <div id="tw2" className="card">{tableCardsCenter[2]}</div>
+        </div>
       </div>
     );
   }

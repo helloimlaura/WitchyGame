@@ -9,7 +9,6 @@ const WitchyGameClient = Client({
   game: WitchyGame,
   board: WitchyGameBoard,
   numPlayers: 3,
-
 });
 
 const App = () => (

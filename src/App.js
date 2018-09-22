@@ -9,12 +9,12 @@ const WitchyGameClient = Client({
   game: WitchyGame,
   board: WitchyGameBoard,
   numPlayers: 3,
-  multiplayer: { server: 'localhost:8000' },
+  // multiplayer: { server: 'localhost:8000' },
 });
 
 const App = () => (
   <div>
-    <WitchyGameClient playerID="0" />
+    <WitchyGameClient />
   </div>
 );
 

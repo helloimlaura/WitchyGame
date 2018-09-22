@@ -1,7 +1,7 @@
 const path = require('path');
 const KoaStatic = require('koa-static');
-const Server = require('boardgame.io/server').Server;
-const WitchyGame = require('./components/Game').WitchyGame;
+const { Server } = require('boardgame.io/server');
+const { WitchyGame }= require('./components/Game');
 
 const server = Server({ games: [WitchyGame] });
 const buildPath = path.join(__dirname, '../build');

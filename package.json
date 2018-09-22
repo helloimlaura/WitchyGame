@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "ajv": "^6.5.3",
+    "eslint-config-fullstack": "^6.0.0",
     "koa-static": "^5.0.0",
     "nodemon": "^1.18.4",
     "react": "^16.5.2",

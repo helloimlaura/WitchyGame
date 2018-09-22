@@ -64,15 +64,13 @@ const WitchyGame = Game({
   moves: {
     shuffle(G, ctx) {
       const deck = ctx.random.Shuffle(G.deck);
-      G.deck = deck
+      G.deck = deck;
       return { ...G }
     },
     dealToPlayers(G) {
-      // for each player
       for(let i = 0; i < 3; i++){
         for(let k = 0; k < 17; k++){
           let player = G.players[`${i}`]
-          //remove card from deck, add to current player
           player.deck.push(G.deck.shift())
         }
       }
@@ -87,8 +85,6 @@ const WitchyGame = Game({
     },
     draftCard(G, ctx, idx){
       //click on card
-      //card removed from table, added to potions
-      //endTurn
       const player = G.players[ctx.currentPlayer]
       const {tableCardsCenter} = G
       if(player.potions.length < 1){
@@ -104,7 +100,6 @@ const WitchyGame = Game({
     },
     selectWitch(G, ctx, id){
       //click on card
-      //card removed from deck, added to hand
       ctx.events.setActionPlayers({all: true})
       const player = G.players[ctx.playerID]
       if(player.deck[id] && player.hand.length <= 2){

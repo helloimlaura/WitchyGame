@@ -1,17 +1,15 @@
 MOVES (change the Game State in G, through user actions)
-  DraftCard
-  SelectWitch
-  DeselectWitch
-  PassTurn
-  SelectCard
-  PlayCard
-  ChooseBravery
+  *DraftCard*
+  *SelectWitch*
+  *DeselectWitch*
+  *PlayCard*
+  *ChooseBravery*
 
 EVENTS (change the Game State in ctx, through backend logic like endTurn)
-  ShuffleAll
-  DealToPlayers
-  SelectFirstPlayer
-  DealStartCards
+  *ShuffleAll*
+  *DealToPlayers*
+  *SelectFirstPlayer*
+  *DealStartCards*
   UpdatePotions
   SetStartPlayer
   CheckTasks

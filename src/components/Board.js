@@ -25,9 +25,9 @@ export class WitchyGameBoard extends React.Component {
           <p style={{ background: '#aaa', width: 290, marginLeft: 31, textAlign: 'center' }}>{this.props.ctx.phase}</p>
           <p style={{ background: '#aaa', width: 290, marginLeft: 31, textAlign: 'center' }}>{this.props.ctx.currentPlayer}</p>
           <div className="flex-container">
-            <div id="tw0" className="card">{cardsOnTable[0] ? cardsOnTable[0].id : null }</div>
-            <div id="tw1" className="card">{cardsOnTable[1] ? cardsOnTable[1].id : null }</div>
-            <div id="tw2" className="card">{cardsOnTable[2] ? cardsOnTable[2].id : null }</div>
+            <div className="card" style={cardsOnTable[0] ? {backgroundColor: cardsOnTable[0].type} : null}>{cardsOnTable[0] ? cardsOnTable[0].id : null }</div>
+            <div className="card" style={cardsOnTable[1] ? {backgroundColor: cardsOnTable[1].type} : null}>{cardsOnTable[1] ? cardsOnTable[1].id : null }</div>
+            <div className="card" style={cardsOnTable[2] ? {backgroundColor: cardsOnTable[2].type} : null}>{cardsOnTable[2] ? cardsOnTable[2].id : null }</div>
           </div>
         </div>
       </div>

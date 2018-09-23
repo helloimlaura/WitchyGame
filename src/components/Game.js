@@ -36,19 +36,13 @@ function createDeck() {
   return deck
 }
 
-// function matchWitch(G, ctx){
-//    // if there is a card in any play zone and it is your turn
-//    // if you have a card in hand that matches the type of the card played,
-//       // your card gets played
-//    // otherwise,
-// }
-
 const WitchyGame = Game({
   name: 'Witchy Game',
   setup: () => ({
     deck: createDeck(),
     taskCards: [1, 2, 3],
     cardsOnTable: [],
+
     lockedIn: 0,
     players: {
       0: {
@@ -73,6 +67,7 @@ const WitchyGame = Game({
         taskCards: []
       }
     },
+    forceEnd: false,
     playerView: PlayerView.STRIP_SECRETS,
   }),
 
@@ -84,11 +79,9 @@ const WitchyGame = Game({
       }
     },
     dealToPlayers(G) {
-      // for each player
       for (let i = 0; i < 3; i++) {
         for (let k = 0; k < 17; k++) {
           let player = G.players[`${i}`]
-          //remove card from deck, add to current player
           player.deck.push(G.deck.shift())
         }
       }
@@ -101,18 +94,14 @@ const WitchyGame = Game({
       for (let i = 0; i < 3; i++) {
         G.cardsOnTable.push(G.deck.shift())
       }
-      ctx.events.endPhase('draft phase')
-      return { ...G
-      }
+      return { ...G, cardsOnTable: G.cardsOnTable }
     },
     draftCard(G, ctx, idx) {
-      //click on card
-      //card removed from table, added to potions
-      //endTurn
       const player = G.players[ctx.currentPlayer]
       const { cardsOnTable } = G
       if (player.potions.length < 1) {
-        player.potions.push(G.cardsOnTable[idx])
+        cardsOnTable[idx].cowardly = true;
+        player.potions.push(cardsOnTable[idx])
         cardsOnTable.splice(idx, 1)
       }
       if (cardsOnTable.length === 1) {
@@ -123,13 +112,9 @@ const WitchyGame = Game({
         })
       }
       return { ...G,
-        players: G.players,
-        cardsOnTable
       }
     },
     selectWitch(G, ctx, id) {
-      //click on card
-      //card removed from deck, added to hand
       ctx.events.setActionPlayers({
         all: true
       })
@@ -145,8 +130,6 @@ const WitchyGame = Game({
       };
     },
     deselectWitch(G, ctx, id) {
-      //click on card
-      //card removed from hand, added to deck
       ctx.events.setActionPlayers({
         all: true
       })
@@ -169,6 +152,7 @@ const WitchyGame = Game({
       return { ...G }
     },
     playCard(G, ctx, id) {
+      //logic here for checking if color matches
       const player = G.players[ctx.currentPlayer]
       if (player.hand[id] && !G.cardsOnTable[player]) {
         G.cardsOnTable[ctx.currentPlayer] = player.hand[id]
@@ -187,19 +171,11 @@ const WitchyGame = Game({
       } else {
         G.cardsOnTable[ctx.currentPlayer].cowardly = true
       }
-      // if there are less than 3 cards that match the type of card you played
-      // if there is someone else with that type of card in their hand,
-      // next player is that player
-      //otherwise...endPhase
       return { ...G }
     }
-    // 'matchWitch'
-    // 'autoChooseCard'
-
   },
 
   flow: {
-    endTurn: true,
     setActionPlayers: true,
     phases: [{
         name: 'setup phase',
@@ -225,15 +201,16 @@ const WitchyGame = Game({
           const playedCard = G.cardsOnTable[ctx.currentPlayer];
           return playedCard && (playedCard.brave === true || playedCard.cowardly === true)
         },
-        // how to split this into multiple phases? cleanup/setup
+      },
+      {
+        name: 'cleanup',
         endPhaseIf: (G, ctx) => {
           let cardsInHands = 0
           Object.keys(G.players).forEach(function (p) {
             cardsInHands += G.players[p].hand.length
-          });
+            });
           const playedCard = G.cardsOnTable[ctx.currentPlayer];
-          return cardsInHands === 0 && (playedCard.brave === true || playedCard.cowardly === true);
-        }
+          return cardsInHands === 0 && (playedCard.brave === true || playedCard.cowardly === true);}
         //cleanup
       },
     ],

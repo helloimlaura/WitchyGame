@@ -6,7 +6,8 @@ export class WitchyGameBoard extends React.Component {
   //TODO: when actually rendering the cards, they will need an onclick for drafting them.
 
   render() {
-    const {cardsOnTable, players, finalPoints} = this.props.G
+    const { cardsOnTable, players, finalPoints } = this.props.G
+    const { currentPlayer} = this.props.ctx
     const potions = ['blue', 'brown', 'green', 'purple']
     const potions1 = ['red', 'yellow', 'wild']
 
@@ -38,9 +39,9 @@ export class WitchyGameBoard extends React.Component {
               <div id='p3'>
                 <p className='player-title'> Player 3</p>
                 <div className="flex-container">
-                  { players[2].hand[0] ? <div className={players[2].hand[0].type} /> : <div className="card" /> }
-                  { players[2].hand[1] ? <div className={players[2].hand[1].type} /> : <div className="card" /> }
-                  { players[2].hand[2] ? <div className={players[2].hand[2].type} /> : <div className="card" /> }
+                  { players[2].hand[0] ? <div className={currentPlayer === '2' ? players[2].hand[0].type : "card-back"} /> : <div className="card" /> }
+                  { players[2].hand[1] ? <div className={currentPlayer === '2' ? players[2].hand[1].type : "card-back"} /> : <div className="card" /> }
+                  { players[2].hand[2] ? <div className={currentPlayer === '2' ? players[2].hand[2].type : "card-back"} /> : <div className="card" /> }
                 <div className='potions-box flex-container pot3'>
                   <div>
                     {potions.map(elem =>
@@ -94,9 +95,9 @@ export class WitchyGameBoard extends React.Component {
                     )}
                   </div>
                 </div>
-                { players[1].hand[0] ? <div className={players[1].hand[0].type} /> : <div className="card" /> }
-                { players[1].hand[1] ? <div className={players[1].hand[1].type} /> : <div className="card" /> }
-                { players[1].hand[2] ? <div className={players[1].hand[2].type} /> : <div className="card" /> }
+                  { players[1].hand[0] ? <div className={currentPlayer === '1' ? players[1].hand[0].type : "card-back"} /> : <div className="card" /> }
+                  { players[1].hand[1] ? <div className={currentPlayer === '1' ? players[1].hand[1].type : "card-back"} /> : <div className="card" /> }
+                  { players[1].hand[2] ? <div className={currentPlayer === '1' ? players[1].hand[2].type : "card-back"} /> : <div className="card" /> }
               </div>
             </div>
           </div>
@@ -104,9 +105,9 @@ export class WitchyGameBoard extends React.Component {
               <div id='p1'>
                 <p className='player-title'> Player 1</p>
                 <div className="flex-container">
-                    { players[0].hand[0] ? <div className={players[0].hand[0].type} /> : <div className="card" /> }
-                    { players[0].hand[1] ? <div className={players[0].hand[1].type} /> : <div className="card" /> }
-                    { players[0].hand[2] ? <div className={players[0].hand[2].type} /> : <div className="card" /> }
+                  { players[0].hand[0] ? <div className={currentPlayer === '0' ? players[0].hand[0].type : "card-back"} /> : <div className="card" /> }
+                  { players[0].hand[1] ? <div className={currentPlayer === '0' ? players[0].hand[1].type : "card-back"} /> : <div className="card" /> }
+                  { players[0].hand[2] ? <div className={currentPlayer === '0' ? players[0].hand[2].type : "card-back"} /> : <div className="card" /> }
                   <div className='potions-box flex-container'>
                     <div>
                       {potions.map(elem =>

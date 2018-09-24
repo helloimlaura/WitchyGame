@@ -36,12 +36,22 @@ function createDeck() {
   return deck
 }
 
-// function matchWitch(G, ctx){
-//    // if there is a card in any play zone and it is your turn
-//    // if you have a card in hand that matches the type of the card played,
-//       // your card gets played
-//    // otherwise,
-// }
+function countAllPotions(G, playerID, arr){
+  let count = 0;
+  let potionList
+  for (let i = 0; i < arr.length; i++){
+    potionList = G.players[playerID].potions.filter(card => card.type === arr[i])
+    console.log(potionList, count)
+    for (let k = 0; k < potionList.length; k++){
+      if(potionList[k].brave){
+        count += 2
+      } else if (potionList[k].cowardly){
+        count += 1
+      }
+    }
+  }
+  return count
+}
 
 const WitchyGame = Game({
   name: 'Witchy Game',
@@ -49,7 +59,7 @@ const WitchyGame = Game({
     deck: createDeck(),
     taskCards: [1, 2, 3],
     cardsOnTable: [],
-
+    firstPlayer: 0,
     lockedIn: 0,
     players: {
       '0': {
@@ -96,7 +106,7 @@ const WitchyGame = Game({
         players: G.players
       }
     },
-    showStartCards(G, ctx) {
+    showStartCards(G) {
       for (let i = 0; i < 3; i++) {
         G.cardsOnTable.push(G.deck.shift())
       }
@@ -111,14 +121,14 @@ const WitchyGame = Game({
         cardsOnTable.splice(idx, 1)
       }
       if (cardsOnTable.length === 1) {
+        cardsOnTable[0].cowardly = true;
         G.players[Number(ctx.currentPlayer) + 1].potions.push(cardsOnTable[0])
         cardsOnTable.splice(0, 1)
         ctx.events.setActionPlayers({
           all: true
         })
       }
-      return { ...G,
-      }
+      return { ...G }
     },
     selectWitch(G, ctx, id) {
       ctx.events.setActionPlayers({
@@ -168,6 +178,14 @@ const WitchyGame = Game({
     },
     chooseBravery(G, ctx, bravery) {
       if (bravery === 'brave') {
+        if(G.players[ctx.currentPlayer].hand.length > 0){
+          G.firstPlayer = ctx.currentPlayer
+        } else {
+          G.firstPlayer = (((Number(ctx.playOrderPos) + 1) % 3).toString())
+          if(G.players[G.firstPlayer].hand.length <= 0){
+            G.firstPlayer = (((Number(ctx.playOrderPos) + 1) % 3).toString())
+          }
+        }
         for (let i = 0; i < ctx.currentPlayer; i++){
           if(G.cardsOnTable[i]){
             if (G.cardsOnTable[i].brave){
@@ -178,9 +196,16 @@ const WitchyGame = Game({
         G.cardsOnTable[ctx.currentPlayer].brave = true
       } else {
         G.cardsOnTable[ctx.currentPlayer].cowardly = true
+        if(G.players[G.firstPlayer].hand.length <= 0){
+          G.firstPlayer = (((Number(ctx.playOrderPos) + 1) % 3).toString())
+        }
+        if(G.players[G.firstPlayer].hand.length <= 0){
+          G.firstPlayer = (((Number(ctx.playOrderPos) + 1) % 3).toString())
+        }
       }
-      return { ...G }
-    }
+      return { ...G, players: G.players, firstPlayer: G.firstPlayer}
+    },
+    finalPoints: {}
   },
 
   flow: {
@@ -206,7 +231,7 @@ const WitchyGame = Game({
         name: 'Play A Witch',
         allowedMoves: ['playCard', 'chooseBravery'],
         turnOrder: {
-          first: () => 0,
+          first: (G, ctx) => G.firstPlayer,
           next: (G, ctx) => {
             let playerList = ctx.playOrder
             let filteredList = []
@@ -214,15 +239,13 @@ const WitchyGame = Game({
             for(let i = 0; i < filteredList.length; i++){
               if(G.players[filteredList[i]].hand.some(c => c.type === G.cardsOnTable[ctx.currentPlayer].type)){
                 ctx.playOrderPos = filteredList[i]
-                console.log("nextPlayer", ctx.playOrderPos)
                 return {playOrderPos: ctx.playOrderPos}
               }
             }
-            ctx.events.endPhase('cleanup')
+            ctx.events.endPhase('CleanUp')
           }
         },
         endTurnIf: (G, ctx) => {
-          console.log("currentPlayer:", ctx.currentPlayer)
           const playedCard = G.cardsOnTable[ctx.currentPlayer];
           return playedCard && (playedCard.brave === true || playedCard.cowardly === true)
         },
@@ -237,14 +260,30 @@ const WitchyGame = Game({
             }
           }
           return { ...G }
+        },
+        endPhaseIf: (G, ctx) => {
+          let cardsInHands = 0
+          Object.keys(G.players).forEach(function (p) {
+            cardsInHands += G.players[p].hand.length
+            });
+          if(cardsInHands === 0 && !G.cardsOnTable[ctx.currentPlayer]){
+            return ctx.events.endPhase('Game Over')
+          } else if (!G.cardsOnTable[0]){
+            return ctx.events.endPhase('Play A Witch')
+          }
+        },
+      },
+      {
+        name: 'Game Over',
+        onPhaseBegin: (G) => {
+          const colors = ['red', 'green', 'purple', 'yellow', 'brown', 'blue']
+          let finalPoints = {
+            0: countAllPotions(G, '0', colors),
+            1: countAllPotions(G, '1', colors),
+            2: countAllPotions(G, '2', colors),
+          }
+          return { ...G, finalPoints}
         }
-        // endPhaseIf: (G, ctx) => {
-        //   let cardsInHands = 0
-        //   Object.keys(G.players).forEach(function (p) {
-        //     cardsInHands += G.players[p].hand.length
-        //     });
-        //   const playedCard = G.cardsOnTable[ctx.currentPlayer];
-        //   return cardsInHands === 0 && (playedCard.brave === true || playedCard.cowardly === true);}
       },
     ],
   },

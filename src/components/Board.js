@@ -5,9 +5,24 @@ export class WitchyGameBoard extends React.Component {
   //TODO: when actually rendering the cards, they will need an onclick for drafting them.
 
   render() {
-    const {cardsOnTable, players} = this.props.G
+    const {cardsOnTable, players, finalPoints} = this.props.G
     const potions = ['blue', 'brown', 'green', 'purple']
     const potions1 = ['red', 'yellow', 'wild']
+
+
+    function countPotions(playerID, color){
+      let count = 0;
+      const potionList = players[playerID].potions.filter(card => card.type === color)
+      for (let i = 0; i < potionList.length; i++){
+        if(potionList[i].brave){
+          count += 2
+        } else if (potionList[i].cowardly){
+          count += 1
+        }
+      }
+      return count
+    }
+
     return (
       <div className="App">
         <div>
@@ -27,27 +42,34 @@ export class WitchyGameBoard extends React.Component {
               <div className='potions-box flex-container'>
                 <div>
                   {potions.map(elem =>
-                    <div className="flex-container">
+                    <div className="flex-container" key={elem.id}>
                       <div className={elem + 1} style={{marginLeft: 15, marginBottom: 10, width: 30, height:42}} />
-                      <div className="center" style={{marginBottom: 10, width: 30, height:42}}>0</div>
+                      <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(2, elem)}</div>
                     </div>
                   )}
                 </div>
               </div>
               <div>
                 {potions1.map(elem =>
-                  <div className="flex-container">
+                  <div className="flex-container" key={elem.id}>
                     <div className={elem + 1} style={{marginLeft: 10, marginBottom: 10, width:30, height:42}} />
-                    <div className="center" style={{marginBottom: 10, width: 30, height:42}}>0</div>
+                    <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(2, elem)}</div>
                   </div>
                 )}
               </div>
             </div>
           </div>
-          <div id='cardsOnTable' className="flex-container">
-            { cardsOnTable[0] ? <div className={cardsOnTable[0].type} /> : <div className="card" /> }
-            { cardsOnTable[1] ? <div className={cardsOnTable[1].type} /> : <div className="card" /> }
-            { cardsOnTable[2] ? <div className={cardsOnTable[2].type} /> : <div className="card" /> }
+          <div id='cardsOnTable' className="flex-container column">
+            { finalPoints && <div className="flex-container">
+                <div style={{marginLeft: 36, marginBottom: 80, fontSize: 20}}>Player 1: {finalPoints[0]}</div>
+                <div style={{marginLeft: 36, marginBottom: 80, fontSize: 20}}>Player 2: {finalPoints[1]}</div>
+                <div style={{marginLeft: 36, marginBottom: 80, fontSize: 20}}>Player 3: {finalPoints[2]}</div>
+              </div>}
+            <div className="flex-container">
+              { cardsOnTable[0] ? <div className={cardsOnTable[0].type} /> : <div className="card" /> }
+              { cardsOnTable[1] ? <div className={cardsOnTable[1].type} /> : <div className="card" /> }
+              { cardsOnTable[2] ? <div className={cardsOnTable[2].type} /> : <div className="card" /> }
+            </div>
           </div>
           <div id='p2'>
               <p className='player-title'> Player 2 </p>
@@ -58,18 +80,18 @@ export class WitchyGameBoard extends React.Component {
                 <div className='potions-box flex-container'>
                 <div>
                   {potions.map(elem =>
-                    <div className="flex-container">
+                    <div className="flex-container" key={elem.id}>
                       <div className={elem + 1} style={{marginLeft: 15, marginBottom: 10, width: 30, height:42}} />
-                      <div className="center" style={{marginBottom: 10, width: 30, height:42}}>0</div>
+                      <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(1, elem)}</div>
                     </div>
                   )}
                 </div>
               </div>
               <div>
                 {potions1.map(elem =>
-                  <div className="flex-container">
+                  <div className="flex-container" key={elem.id}>
                     <div className={elem + 1} style={{marginLeft: 10, marginBottom: 10, width:30, height:42}} />
-                    <div className="center" style={{marginBottom: 10, width: 30, height:42}}>0</div>
+                    <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(1, elem)}</div>
                   </div>
                 )}
               </div>
@@ -86,17 +108,17 @@ export class WitchyGameBoard extends React.Component {
                 <div className='potions-box flex-container'>
                   <div>
                     {potions.map(elem =>
-                      <div className="flex-container">
+                      <div className="flex-container" key={elem.id}>
                         <div className={elem + 1} style={{marginLeft: 15, marginBottom: 10, width: 30, height:42}} />
-                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>0</div>
+                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(0, elem)}</div>
                       </div>
                     )}
                   </div>
                   <div>
                     {potions1.map(elem =>
-                      <div className="flex-container">
+                      <div className="flex-container" key={elem.id}>
                         <div className={elem + 1} style={{marginLeft: 10, marginBottom: 10, width:30, height:42}} />
-                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>0</div>
+                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(0, elem)}</div>
                       </div>
                     )}
                   </div>

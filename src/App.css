@@ -60,6 +60,12 @@
   border-radius: 10px;
 }
 
+.final-points{
+  margin: 0px 0px 30px 28px;
+  font-size: 32px;
+  color: #4F2C73;
+}
+
 .blue{
   background-image: url('./img/bluewitch.png');
   background-repeat: no-repeat;
@@ -258,7 +264,7 @@
 }
 
 #cardsOnTable{
-  margin-top: 170px;
+  margin-top: 160px;
 }
 
 #p1{

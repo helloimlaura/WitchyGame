@@ -64,9 +64,9 @@ export class WitchyGameBoard extends React.Component {
             </div>
             <div id='cardsOnTable' className="flex-container column">
               { finalPoints && <div className="flex-container">
-                  <div style={{marginLeft: 36, marginBottom: 80, fontSize: 20}}>Player 1: {finalPoints[0]}</div>
-                  <div style={{marginLeft: 36, marginBottom: 80, fontSize: 20}}>Player 2: {finalPoints[1]}</div>
-                  <div style={{marginLeft: 36, marginBottom: 80, fontSize: 20}}>Player 3: {finalPoints[2]}</div>
+                  <div className="final-points">Player 1: {finalPoints[0]}</div>
+                  <div className="final-points">Player 2: {finalPoints[0]}</div>
+                  <div className="final-points">Player 3: {finalPoints[0]}</div>
                 </div>}
               <div className="flex-container">
                 { cardsOnTable[0] ? <div className={[cardsOnTable[0].type, cardsOnTable[0] && cardsOnTable[0].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }

@@ -1,42 +1,235 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  box-sizing: border-box;
+  margin: 0;
+  background: #4F2C73;
+  background: -moz-linear-gradient(top, #9177AC  0%, #FFFFFF 100%);
+  background: -webkit-linear-gradient(top, #9177AC  0%, #FFFFFF 100%);
+  background: linear-gradient(to bottom, #9177AC  0%, #FFFFFF 100%);
+  /* background-image: url(https://yese69.com/wp-content/uploads/data/2018/1/5/large-gradient-wallpaper-2880x1-WTG3056778.jpg) */
 }
 
 .App-header {
-  background-color: #222;
-  height: 100px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
+  z-index: -1;
 }
 
 .App-intro {
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.player-title{
+  margin-left: 30px;
+  font-weight: bold;
 }
 
 .card {
-  border: 1px solid lightblue;
-  height: 110px;
-  width: 75px;
+  border: 1px solid #4F2C73;
+  padding: 5px;
+  width: 140px;
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+  border-radius: 10px;
+}
+
+.blue{
+  background-image: url('./img/bluewitch.png');
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+  border-radius: 10px;
+  padding: 5px;
+  width: 140px;
+  height: 230px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 30px;
 }
 
+.brown{
+  background-image: url('./img/brownwitch.png');
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+  border-radius: 10px;
+  padding: 5px;
+  width: 140px;
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.green{
+  background-image: url('./img/greenwitch.png');
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+  border-radius: 10px;
+  padding: 5px;
+  width: 140px;
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.purple{
+  background-image: url('./img/purplewitch.png');
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+  border-radius: 10px;
+  padding: 5px;
+  width: 140px;
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.red{
+  background-image: url('./img/redwitch.png');
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+  border-radius: 10px;
+  padding: 5px;
+  width: 140px;
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.yellow{
+  background-image: url('./img/yellowwitch.png');
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: center;
+  border-radius: 10px;
+  padding: 5px;
+  width: 140px;
+  height: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.blue1{
+  background-image: url('./img/blue.png');
+}
+
+.brown1{
+  background-image: url('./img/brown.png');
+}
+
+.green1{
+  background-image: url('./img/green.png');
+}
+
+.purple1{
+  background-image: url('./img/purple.png');
+}
+
+.red1{
+  background-image: url('./img/red.png');
+}
+
+.yellow1{
+  background-image: url('./img/yellow.png');
+}
+
+.wild1{
+  background-image: url('./img/wild.png');
+}
+
+.potion{
+  width: 300px;
+  height: auto;
+}
+
 .flex-container{
   display: flex;
+}
+
+.wrap{
+  flex-wrap: wrap;
+}
+
+.column{
+  flex-direction: column;
+}
+
+.bgs{
+  background-color: gainsboro
+}
+
+.bgbl{
+  background-color: rgba(170, 163, 57);
+}
+
+.bgtu{
+  background-color: rgb(212, 206, 106);
+}
+
+.center{
+  text-align: center;
+  align-items: center;
+  margin: auto;
+}
+
+.txtw{
+  color: white;
+}
+
+#title{
+  box-sizing: border-box;
+  width: 1840px;
+  font-size: 36px;
+  margin: 0;
+  padding: 15px;
+}
+
+#currentPhase{
+  box-sizing: border-box;
+  width: 1840px;
+  font-size: 24px;
+  margin: 0;
+  padding: 10px;
+}
+
+#currentPlayer{
+  box-sizing: border-box;
+  width: 1840px;
+  font-size: 24px;
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #4F2C73
+}
+
+#cardsOnTable{
+  margin-top: 170px;
+}
+
+#p1{
+  margin: 60px 0px 18px 610px;
+}
+
+#p2{
+  transform: rotate(270deg);
+  margin-top: 200px;
+}
+
+#p3{
+  transform: rotate(90deg);
+  margin-top: 190px;
+
 }

@@ -36,6 +36,13 @@ function createDeck() {
   return deck
 }
 
+// function matchWitch(G, ctx){
+//    // if there is a card in any play zone and it is your turn
+//    // if you have a card in hand that matches the type of the card played,
+//       // your card gets played
+//    // otherwise,
+// }
+
 const WitchyGame = Game({
   name: 'Witchy Game',
   setup: () => ({
@@ -45,21 +52,21 @@ const WitchyGame = Game({
 
     lockedIn: 0,
     players: {
-      0: {
+      '0': {
         name: 'player 1',
         hand: [],
         deck: [],
         potions: [],
         taskCards: [],
       },
-      1: {
+      '1': {
         name: 'player 2',
         hand: [],
         deck: [],
         potions: [],
         taskCards: [],
       },
-      2: {
+      '2': {
         name: 'player 3',
         hand: [],
         deck: [],
@@ -67,7 +74,6 @@ const WitchyGame = Game({
         taskCards: []
       }
     },
-    forceEnd: false,
     playerView: PlayerView.STRIP_SECRETS,
   }),
 
@@ -163,8 +169,10 @@ const WitchyGame = Game({
     chooseBravery(G, ctx, bravery) {
       if (bravery === 'brave') {
         for (let i = 0; i < ctx.currentPlayer; i++){
-          if (G.cardsOnTable[i].brave){
-            G.cardsOnTable[i].brave = false;
+          if(G.cardsOnTable[i]){
+            if (G.cardsOnTable[i].brave){
+              G.cardsOnTable[i].brave = false;
+            }
           }
         }
         G.cardsOnTable[ctx.currentPlayer].brave = true
@@ -178,40 +186,65 @@ const WitchyGame = Game({
   flow: {
     setActionPlayers: true,
     phases: [{
-        name: 'setup phase',
+        name: 'Setup',
         allowedMoves: ['shuffle', 'dealToPlayers', 'showStartCards'],
         endPhaseIf: G => G.cardsOnTable.length
       },
       {
-        name: 'draft phase',
+        name: 'Draft A Card',
         allowedMoves: ['draftCard'],
         endTurnIf: (G, ctx) => G.players[ctx.currentPlayer].potions.length >= 1,
         endPhaseIf: G => G.cardsOnTable.length <= 0
       },
       {
-        name: 'witches select phase',
+        name: 'Select Your Witches',
         allowedMoves: ['selectWitch', 'deselectWitch', 'lockIn'],
         endTurnIf: (G, ctx) => G.lockedIn === Number(ctx.currentPlayer),
         endPhaseIf: G => G.lockedIn >= 3
       },
       {
-        name: 'trick',
+        name: 'Play A Witch',
         allowedMoves: ['playCard', 'chooseBravery'],
+        turnOrder: {
+          first: () => 0,
+          next: (G, ctx) => {
+            let playerList = ctx.playOrder
+            let filteredList = []
+            filteredList = filteredList.concat(playerList.slice(Number(ctx.currentPlayer) + 1),(playerList.slice(0, Number(ctx.currentPlayer))))
+            for(let i = 0; i < filteredList.length; i++){
+              if(G.players[filteredList[i]].hand.some(c => c.type === G.cardsOnTable[ctx.currentPlayer].type)){
+                ctx.playOrderPos = filteredList[i]
+                console.log("nextPlayer", ctx.playOrderPos)
+                return {playOrderPos: ctx.playOrderPos}
+              }
+            }
+            ctx.events.endPhase('cleanup')
+          }
+        },
         endTurnIf: (G, ctx) => {
+          console.log("currentPlayer:", ctx.currentPlayer)
           const playedCard = G.cardsOnTable[ctx.currentPlayer];
           return playedCard && (playedCard.brave === true || playedCard.cowardly === true)
         },
       },
       {
-        name: 'cleanup',
-        endPhaseIf: (G, ctx) => {
-          let cardsInHands = 0
-          Object.keys(G.players).forEach(function (p) {
-            cardsInHands += G.players[p].hand.length
-            });
-          const playedCard = G.cardsOnTable[ctx.currentPlayer];
-          return cardsInHands === 0 && (playedCard.brave === true || playedCard.cowardly === true);}
-        //cleanup
+        name: 'CleanUp',
+        onPhaseBegin: G => {
+          for(let i = 0; i < 3; i++){
+            if(G.cardsOnTable[i]){
+              G.players[i].potions.push(G.cardsOnTable[i])
+              G.cardsOnTable[i] = null;
+            }
+          }
+          return { ...G }
+        }
+        // endPhaseIf: (G, ctx) => {
+        //   let cardsInHands = 0
+        //   Object.keys(G.players).forEach(function (p) {
+        //     cardsInHands += G.players[p].hand.length
+        //     });
+        //   const playedCard = G.cardsOnTable[ctx.currentPlayer];
+        //   return cardsInHands === 0 && (playedCard.brave === true || playedCard.cowardly === true);}
       },
     ],
   },

@@ -69,9 +69,9 @@ export class WitchyGameBoard extends React.Component {
                   <div style={{marginLeft: 36, marginBottom: 80, fontSize: 20}}>Player 3: {finalPoints[2]}</div>
                 </div>}
               <div className="flex-container">
-                { cardsOnTable[0] ? <div className={[cardsOnTable[0].type, cardsOnTable[0].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
-                { cardsOnTable[1] ? <div className={[cardsOnTable[1].type, cardsOnTable[0].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
-                { cardsOnTable[2] ? <div className={[cardsOnTable[2].type, cardsOnTable[0].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
+                { cardsOnTable[0] ? <div className={[cardsOnTable[0].type, cardsOnTable[0] && cardsOnTable[0].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
+                { cardsOnTable[1] ? <div className={[cardsOnTable[1].type, cardsOnTable[1] && cardsOnTable[1].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
+                { cardsOnTable[2] ? <div className={[cardsOnTable[2].type, cardsOnTable[2] && cardsOnTable[2].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
               </div>
             </div>
             <div id='p2'>

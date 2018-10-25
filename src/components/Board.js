@@ -46,16 +46,16 @@ export class WitchyGameBoard extends React.Component {
                   <div>
                     {potions.map(elem =>
                       <div className="flex-container" key={elem.id}>
-                        <div className={elem + 1} style={{marginLeft: 15, marginBottom: 10, width: 30, height:42}} />
-                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(2, elem)}</div>
+                        <div className={`${elem + 1} potion-ml15mb10`} />
+                        <div className={`center potion-mb10`}>{countPotions(2, elem)}</div>
                       </div>
                     )}
                   </div>
                   <div>
                     {potions1.map(elem =>
                       <div className="flex-container" key={elem.id}>
-                        <div className={elem + 1} style={{marginLeft: 10, marginBottom: 10, width:30, height:42}} />
-                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(2, elem)}</div>
+                        <div className={`${elem + 1} potion-ml10mb10`} />
+                        <div className={`center potion-mb10`}>{countPotions(2, elem)}</div>
                       </div>
                     )}
                   </div>
@@ -81,16 +81,16 @@ export class WitchyGameBoard extends React.Component {
                   <div>
                     {potions.map(elem =>
                       <div className="flex-container" key={elem.id}>
-                        <div className={elem + 1} style={{marginLeft: 15, marginBottom: 10, width: 30, height:42}} />
-                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(1, elem)}</div>
+                        <div className={`${elem + 1} potion-ml15mb10`}/>
+                        <div className={`center potion-mb10`}>{countPotions(1, elem)}</div>
                       </div>
                     )}
                   </div>
                   <div>
                     {potions1.map(elem =>
                       <div className="flex-container" key={elem.id}>
-                        <div className={elem + 1} style={{marginLeft: 10, marginBottom: 10, width:30, height:42}} />
-                        <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(1, elem)}</div>
+                        <div className={`${elem + 1} potion-ml10mb10`}/>
+                        <div className={`center potion-mb10`}>{countPotions(1, elem)}</div>
                       </div>
                     )}
                   </div>
@@ -112,16 +112,16 @@ export class WitchyGameBoard extends React.Component {
                     <div>
                       {potions.map(elem =>
                         <div className="flex-container" key={elem.id}>
-                          <div className={elem + 1} style={{marginLeft: 15, marginBottom: 10, width: 30, height:42}} />
-                          <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(0, elem)}</div>
+                          <div className={`${elem + 1} potion-ml15mb10`} />
+                          <div className={`center potion-mb10`}>{countPotions(0, elem)}</div>
                         </div>
                       )}
                     </div>
                     <div>
                       {potions1.map(elem =>
                         <div className="flex-container" key={elem.id}>
-                          <div className={elem + 1} style={{marginLeft: 10, marginBottom: 10, width:30, height:42}} />
-                          <div className="center" style={{marginBottom: 10, width: 30, height:42}}>{countPotions(0, elem)}</div>
+                          <div className={`${elem + 1} potion-ml10mb10`}/>
+                          <div className={`center potion-mb10`}>{countPotions(0, elem)}</div>
                         </div>
                       )}
                     </div>

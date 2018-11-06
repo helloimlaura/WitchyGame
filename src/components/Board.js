@@ -10,6 +10,7 @@ export class WitchyGameBoard extends React.Component {
     const { currentPlayer} = this.props.ctx
     const potions = ['blue', 'brown', 'green', 'purple']
     const potions1 = ['red', 'yellow', 'wild']
+    const cards = [0, 1, 2]
 
 
     function countPotions(playerID, color){
@@ -27,6 +28,7 @@ export class WitchyGameBoard extends React.Component {
 
     return (
       <div className="App">
+      {/* Header */}
         <div>
           <div className="App-header center txtw">
             <h1 id='title'>WITCHY GAME</h1>
@@ -34,14 +36,16 @@ export class WitchyGameBoard extends React.Component {
             <p id='currentPlayer' className="bgtu txtw"> Current Player: {Number(this.props.ctx.currentPlayer) + 1}</p>
           </div>
         </div>
-        {this.props.ctx.phase === 'Select Your Witches' ? <PlayerHand G={this.props.G} ctx={this.props.ctx} /> : (<div>
+        {this.props.ctx.phase === 'Select Your Witches'
+        // Single player hand
+        ? <PlayerHand G={this.props.G} ctx={this.props.ctx} />
+        : (<div>
+          {/* All player view */}
             <div id='others' className="flex-container">
               <div id='p3'>
                 <p className='player-title'> Player 3</p>
                 <div className="flex-container">
-                  { players[2].hand[0] ? <div className={currentPlayer === '2' ? players[2].hand[0].type : "card-back"} /> : <div className="card" /> }
-                  { players[2].hand[1] ? <div className={currentPlayer === '2' ? players[2].hand[1].type : "card-back"} /> : <div className="card" /> }
-                  { players[2].hand[2] ? <div className={currentPlayer === '2' ? players[2].hand[2].type : "card-back"} /> : <div className="card" /> }
+                  {cards.map(c => { return players[2].hand[c] ? (<div className={currentPlayer === '2' ? players[2].hand[c].type : "card-back"} />) : <div className="card" /> })}
                 <div className='potions-box flex-container pot3'>
                   <div>
                     {potions.map(elem =>
@@ -64,14 +68,13 @@ export class WitchyGameBoard extends React.Component {
             </div>
             <div id='cardsOnTable' className="flex-container column">
               { finalPoints && <div className="flex-container">
-                  <div className="final-points">Player 1: {finalPoints[0]}</div>
-                  <div className="final-points">Player 2: {finalPoints[0]}</div>
-                  <div className="final-points">Player 3: {finalPoints[0]}</div>
+                { function () { for (let i = 0; i < 3; i++){
+                  return <div className="final-points">{ `Player ${i+1}: ${finalPoints[i]}`}</div>
+                }}()}
+
                 </div>}
               <div className="flex-container">
-                { cardsOnTable[0] ? <div className={[cardsOnTable[0].type, cardsOnTable[0] && cardsOnTable[0].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
-                { cardsOnTable[1] ? <div className={[cardsOnTable[1].type, cardsOnTable[1] && cardsOnTable[1].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
-                { cardsOnTable[2] ? <div className={[cardsOnTable[2].type, cardsOnTable[2] && cardsOnTable[2].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> }
+                {cards.map(c => {return cardsOnTable[c] ? <div className={[cardsOnTable[c].type, cardsOnTable[c] && cardsOnTable[c].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> })}
               </div>
             </div>
             <div id='p2'>
@@ -95,9 +98,7 @@ export class WitchyGameBoard extends React.Component {
                     )}
                   </div>
                 </div>
-                  { players[1].hand[0] ? <div className={currentPlayer === '1' ? players[1].hand[0].type : "card-back"} /> : <div className="card" /> }
-                  { players[1].hand[1] ? <div className={currentPlayer === '1' ? players[1].hand[1].type : "card-back"} /> : <div className="card" /> }
-                  { players[1].hand[2] ? <div className={currentPlayer === '1' ? players[1].hand[2].type : "card-back"} /> : <div className="card" /> }
+                  {cards.map(c => { return players[1].hand[c] ? <div className={currentPlayer === '1' ? players[1].hand[c].type : "card-back"} /> : <div className="card" /> })}
               </div>
             </div>
           </div>
@@ -105,9 +106,7 @@ export class WitchyGameBoard extends React.Component {
               <div id='p1'>
                 <p className='player-title'> Player 1</p>
                 <div className="flex-container">
-                  { players[0].hand[0] ? <div className={currentPlayer === '0' ? players[0].hand[0].type : "card-back"} /> : <div className="card" /> }
-                  { players[0].hand[1] ? <div className={currentPlayer === '0' ? players[0].hand[1].type : "card-back"} /> : <div className="card" /> }
-                  { players[0].hand[2] ? <div className={currentPlayer === '0' ? players[0].hand[2].type : "card-back"} /> : <div className="card" /> }
+                  {cards.map(c => {return players[0].hand[c] ? <div className={currentPlayer === '0' ? players[0].hand[c].type : "card-back"} /> : <div className="card" /> })}
                   <div className='potions-box flex-container'>
                     <div>
                       {potions.map(elem =>

@@ -45,11 +45,11 @@ export class WitchyGameBoard extends React.Component {
               <div id='p3'>
                 <p className='player-title'> Player 3</p>
                 <div className="flex-container">
-                  {cards.map(c => { return players[2].hand[c] ? (<div className={currentPlayer === '2' ? players[2].hand[c].type : "card-back"} />) : <div className="card" /> })}
+                  {cards.map(c => { return players[2].hand[c] ? (<div key = {c} className={currentPlayer === '2' ? players[2].hand[c].type : "card-back"} />) : <div key = {c} className="card" /> })}
                 <div className='potions-box flex-container pot3'>
                   <div>
                     {potions.map(elem =>
-                      <div className="flex-container" key={elem.id}>
+                      <div key={potions.indexOf(elem)} className="flex-container">
                         <div className={`${elem + 1} potion-ml15mb10`} />
                         <div className={`center potion-mb10`}>{countPotions(2, elem)}</div>
                       </div>
@@ -57,7 +57,7 @@ export class WitchyGameBoard extends React.Component {
                   </div>
                   <div>
                     {potions1.map(elem =>
-                      <div className="flex-container" key={elem.id}>
+                      <div key={potions1.indexOf(elem)} className="flex-container" >
                         <div className={`${elem + 1} potion-ml10mb10`} />
                         <div className={`center potion-mb10`}>{countPotions(2, elem)}</div>
                       </div>
@@ -74,7 +74,7 @@ export class WitchyGameBoard extends React.Component {
 
                 </div>}
               <div className="flex-container">
-                {cards.map(c => {return cardsOnTable[c] ? <div className={[cardsOnTable[c].type, cardsOnTable[c] && cardsOnTable[c].cowardly && 'cowardly'].join(' ')} /> : <div className="card" /> })}
+                {cards.map(c => {return cardsOnTable[c] ? <div key = {c} className={[cardsOnTable[c].type, cardsOnTable[c] && cardsOnTable[c].cowardly && 'cowardly'].join(' ')} /> : <div key = {c} className="card" /> })}
               </div>
             </div>
             <div id='p2'>
@@ -83,7 +83,7 @@ export class WitchyGameBoard extends React.Component {
                 <div className='potions-box flex-container pot2'>
                   <div>
                     {potions.map(elem =>
-                      <div className="flex-container" key={elem.id}>
+                      <div className="flex-container" key={potions.indexOf(elem)} >
                         <div className={`${elem + 1} potion-ml15mb10`}/>
                         <div className={`center potion-mb10`}>{countPotions(1, elem)}</div>
                       </div>
@@ -91,14 +91,14 @@ export class WitchyGameBoard extends React.Component {
                   </div>
                   <div>
                     {potions1.map(elem =>
-                      <div className="flex-container" key={elem.id}>
+                      <div className="flex-container" key={potions1.indexOf(elem)} >
                         <div className={`${elem + 1} potion-ml10mb10`}/>
                         <div className={`center potion-mb10`}>{countPotions(1, elem)}</div>
                       </div>
                     )}
                   </div>
                 </div>
-                  {cards.map(c => { return players[1].hand[c] ? <div className={currentPlayer === '1' ? players[1].hand[c].type : "card-back"} /> : <div className="card" /> })}
+                  {cards.map(c => { return players[1].hand[c] ? <div key = {c} className={currentPlayer === '1' ? players[1].hand[c].type : "card-back"} /> : <div key = {c} className="card" /> })}
               </div>
             </div>
           </div>
@@ -106,11 +106,11 @@ export class WitchyGameBoard extends React.Component {
               <div id='p1'>
                 <p className='player-title'> Player 1</p>
                 <div className="flex-container">
-                  {cards.map(c => {return players[0].hand[c] ? <div className={currentPlayer === '0' ? players[0].hand[c].type : "card-back"} /> : <div className="card" /> })}
+                  {cards.map(c => {return players[0].hand[c] ? <div key = {c} className={currentPlayer === '0' ? players[0].hand[c].type : "card-back"} /> : <div key = {c} className="card" /> })}
                   <div className='potions-box flex-container'>
                     <div>
                       {potions.map(elem =>
-                        <div className="flex-container" key={elem.id}>
+                        <div className="flex-container" key={potions.indexOf(elem)}>
                           <div className={`${elem + 1} potion-ml15mb10`} />
                           <div className={`center potion-mb10`}>{countPotions(0, elem)}</div>
                         </div>
@@ -118,7 +118,7 @@ export class WitchyGameBoard extends React.Component {
                     </div>
                     <div>
                       {potions1.map(elem =>
-                        <div className="flex-container" key={elem.id}>
+                        <div className="flex-container" key={potions1.indexOf(elem)}>
                           <div className={`${elem + 1} potion-ml10mb10`}/>
                           <div className={`center potion-mb10`}>{countPotions(0, elem)}</div>
                         </div>
